@@ -10,17 +10,17 @@ router.post('/login', login)
 router.post('/register', register)
 
 function login (req, res, next) {
-  const { email, password, apikey } = req.body
+  const { email, password, apiKeyToken } = req.body
 
-  if (apikey !== config.auth.apiKey) return next(err('invalid aipkey', 400))
+  if (apiKeyToken !== config.auth.apiKeyToken) return next(err('invalid apiKeyToken', 400))
 
-  const { user, token } = controller.login({ email, password })
+  const { user, accessToken } = controller.login({ email, password })
 
   res.status(200).json({
     message: 'login successfully',
     data: {
       user,
-      token
+      accessToken
     }
   })
 }
