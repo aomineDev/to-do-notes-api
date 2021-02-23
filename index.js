@@ -4,7 +4,7 @@ const cors = require('cors')
 const { logErrors, errorHandler } = require('./utils/middleware/errorHandler')
 const { notFoundHandler } = require('./utils/middleware/notFoundHandler')
 const mongoConnection = require('./lib/mongo')
-const config = require('./config')
+const { serve } = require('./config')
 const router = require('./router')
 
 const app = express()
@@ -25,8 +25,8 @@ mongoConnection()
   })
   .catch(err => console.error('[mongo] ' + err.message))
 
-app.listen(config.serve.port, (err) => {
+app.listen(serve.port, (err) => {
   if (err) console.error(err)
 
-  console.log(`[serve] app listening in http://localhost:${config.serve.port}`)
+  console.log(`[serve] app listening in http://localhost:${serve.port}`)
 })

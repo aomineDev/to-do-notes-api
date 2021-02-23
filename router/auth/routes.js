@@ -1,32 +1,45 @@
 const { Router } = require('express')
 
-const err = require('../../utils/error')
-const config = require('../../config')
 const controller = require('./index')
+const { validateScheme, validateApiKeyToken } = require('../../utils/middleware/validationHandler')
+const { signInScheme, signUpScheme } = require('./schema')
 
 const router = Router()
 
-router.post('/login', login)
-router.post('/register', register)
+router.post('/sign-in', validateApiKeyToken, validateScheme(signInScheme), signIn)
+router.post('/sign-up', validateApiKeyToken, validateScheme(signUpScheme), signUp)
 
-function login (req, res, next) {
-  const { email, password, apiKeyToken } = req.body
+async function signIn (req, res, next) {
+  const { body: credentials } = req
 
-  if (apiKeyToken !== config.auth.apiKeyToken) return next(err('invalid apiKeyToken', 400))
+  try {
+    const { user, accessToken } = await controller.signIn({ credentials })
 
-  const { user, accessToken } = controller.login({ email, password })
-
-  res.status(200).json({
-    message: 'login successfully',
-    data: {
-      user,
-      accessToken
-    }
-  })
+    res.status(200).json({
+      message: 'login successfully',
+      data: {
+        user,
+        accessToken
+      }
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
-function register (req, res, next) {
+async function signUp (req, res, next) {
+  const { body: user } = req
 
+  try {
+    const createdUser = await controller.signUp({ user })
+
+    res.status(201).json({
+      message: 'user created',
+      data: createdUser
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
 module.exports = router

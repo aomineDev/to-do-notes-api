@@ -7,7 +7,7 @@ const config = {
   },
   auth: {
     jwtSecret: process.env.AUTH_JWT_SECRET || 'notsecure',
-    apiKeyToken: process.env.AUTH_API_KEY || ''
+    apiKeyToken: process.env.AUTH_API_KEY_TOKEN || ''
   },
   mongo: {
     dbUser: process.env.DB_USER,

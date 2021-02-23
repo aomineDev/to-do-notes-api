@@ -6,7 +6,7 @@ function logErrors (err, req, res, next) {
 
 function errorHandler (err, req, res, next) {
   const statusCode = err.statusCode || 500
-  const errMessage = err.message || 'server error.'
+  const errMessage = err.message || 'internal server error.'
 
   res.status(statusCode).json({ message: errMessage })
 }
