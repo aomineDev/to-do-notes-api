@@ -28,5 +28,5 @@ mongoConnection()
 app.listen(serve.port, (err) => {
   if (err) console.error(err)
 
-  console.log(`[serve] app listening in http://localhost:${serve.port}`)
+  console.log(`[serve] api listening in http://localhost:${serve.port}`)
 })

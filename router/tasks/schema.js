@@ -5,6 +5,12 @@ const createScheme = Joi.object({
   description: Joi.string()
 })
 
+const updateScheme = Joi.object({
+  title: Joi.string(),
+  description: Joi.string()
+})
+
 module.exports = {
-  createScheme
+  createScheme,
+  updateScheme
 }

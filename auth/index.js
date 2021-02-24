@@ -19,15 +19,19 @@ function decodeHeader (req) {
 
   const token = getToken(authorization)
 
-  const decoded = verify(token)
+  try {
+    const decoded = verify(token)
 
-  req.user = decoded
+    req.user = decoded
 
-  return decoded
+    return decoded
+  } catch (error) {
+    throw wrapError(error, 401)
+  }
 }
 
 function getToken (header) {
-  if (!header) throw wrapError('token not found.', 401)
+  if (!header) throw wrapError('token not found.', 400)
 
   if (header.indexOf('Bearer ') === -1) throw wrapError('invalid token.', 401)
 
