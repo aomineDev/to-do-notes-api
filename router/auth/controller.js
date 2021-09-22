@@ -8,6 +8,7 @@ function controller (injectedStore) {
 
   async function signIn ({ credentials }) {
     const { username, password } = credentials
+
     const user = await Model.findOne({ username })
 
     if (!user) throw wrapErrors('incorrect credentials.', 400)
